@@ -1,0 +1,19 @@
+{
+    "users": [
+        {},
+        {
+            "email": "misism@gmail.com",
+            "password": "$2b$10$JMSYdO7vURUXYga9DN1YqOH3RnZ5q.2lDKdvktYJq6E3MuDu.yjnK",
+            "tel": "01031050281",
+            "username": "송지훈",
+            "index": 3
+        },
+        {
+            "email": "misosjm@naver.com",
+            "password": "$2b$10$ZCVuHTgldbMCGguhe1IaI.QLVfXoQBLRjTkMl2.hCwv4Pj40UGvmC",
+            "tel": "01091710281",
+            "username": "송지민",
+            "index": 4
+        }
+    ]
+}

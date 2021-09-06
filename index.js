@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
+const mysql = require('mysql2')
 const app = express()
 const fs = require('fs')
 const bcrypt = require('bcrypt')
@@ -16,7 +17,6 @@ app.get('/findall', function (req, res) {
     let email = req.query.email
     let result = false
     let index
-    // console.log(req)
     const data = JSON.parse(
         fs.readFileSync('data/loginPage.json').toString('utf-8')
     )
@@ -30,13 +30,17 @@ app.get('/findall', function (req, res) {
             email = cheakemail
         }
     })
-    // console.log(data.users)
     res.send({ result, email })
 })
 
 app.get('/cheaktoken', function (req, res) {
     const token = req.headers['token'] // client에게서 받은 토큰
     const result = false
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        database: 'asd',
+    })
     /* 토큰이 없으면 403 에러 응답 처리 */
     if (!token) {
         return res.status(403).json({
@@ -58,6 +62,14 @@ app.get('/cheaktoken', function (req, res) {
             message: error.message,
         })
     }
+    connection.query(
+        'SELECT * FROM `asd`.`users` LIMIT 1000`',
+        function (err, results, fields) {
+            if (err) throw err
+            console.log(results) // results contains rows returned by server
+            console.log(fields) // fields contains extra meta data about results, if available
+        }
+    )
     p.then((decoded) => {
         res.send(decoded.name)
     }).catch(onError)
@@ -118,7 +130,8 @@ app.post('/signup', function (req, res) {
         const cheakemail = Data.email
         if (cheakemail == email) result = true
     })
-    if (!result == true) data.users.push(req.body)
+    if (!result == true) {
+    }
     fs.writeFileSync('data/loginPage.json', JSON.stringify(data))
     res.send({ success: !result, index: req.body.index })
 })
